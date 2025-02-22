@@ -1,0 +1,19 @@
+NOTE File structure
+
+project_root/
+├── app/
+│   ├── main.py            # Entry point for the Streamlit app
+│   ├── spotify_api.py     # Module for all Spotify API interactions (authentication, data fetching)
+│   ├── plotting.py        # Module for generating Matplotlib visualizations
+│   └── utils.py           # Optional helper functions (data processing, formatting)
+├── config/
+│   ├── config.py          # Central configuration settings (e.g., API keys, redirect URIs)
+│   └── .env               # Environment variables (do not commit this to version control)
+├── data/                  # (Optional) For temporary storage of data or exported files
+│   └── sample_output.csv  # Example file if you choose to store outputs for debugging
+├── tests/                 # (Optional) For any testing scripts or unit tests
+│   └── test_api.py        # Example test file for Spotify API functions
+├── requirements.txt       # List of project dependencies
+├── README.md              # Project documentation & setup instructions
+└── .gitignore             # Specify files/folders to exclude from version control
+
