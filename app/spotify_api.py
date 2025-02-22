@@ -62,5 +62,12 @@ def get_top_tracks(sp, limit=10):
     Returns:
         dict: A dictionary containing the user's top tracks.
     """
-    results = sp.current_user_top_tracks(limit=limit)
+    """
+    Over what time frame the affinities are computed. Valid values: long_term (calculated from ~1 year of data 
+    and including all new data as it becomes available), medium_term (approximately last 6 months), 
+    short_term (approximately last 4 weeks). Default: medium_term
+    """
+
+    results = sp.current_user_top_tracks(limit=limit, time_range="long_term")
     return results
+
