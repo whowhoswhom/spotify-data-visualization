@@ -1,5 +1,5 @@
 import pandas as pd
-from spotify_api import get_spotify_client, get_top_tracks
+from app.spotify_api import get_spotify_client, get_top_tracks
 
 def create_songs_feature_df(df, sp):
 
@@ -27,6 +27,17 @@ def recently_played_songs(tracks):
     # Filtering the Data for more readability (remove spaces and convert to lowercase)
     df[['artists', 'name']] = df[['artists', 'name']].applymap(lambda x: x.lower().replace(' ', ''))
 
+    return df
+
+def create_songs_df(tracks):
+    # Convert to data frame
+    df = pd.DataFrame(tracks['items'])[['id', 'artists', 'name', 'popularity']]
+    # Extract the artists name from the nested dictionary
+    df['artists'] = df['artists'].apply(lambda x: x[0]['name'])
+    # Filtering the Data for more readability (remove spaces and convert to lowercase)
+    df[['artists', 'name']] = df[['artists', 'name']].applymap(lambda x: x.lower().replace(' ', ''))
+    # Remove duplicates, sort by the popularity and reset index
+    df = df.drop_duplicates().sort_values(by='popularity', ascending=False).reset_index(drop=True)
     return df
 
 
