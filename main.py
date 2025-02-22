@@ -1,4 +1,3 @@
-from app.streamlit_app import run_app
- 
-if __name__ == "__main__":
-    run_app()
+import app.streamlit_app as app
+
+app.run_app()
