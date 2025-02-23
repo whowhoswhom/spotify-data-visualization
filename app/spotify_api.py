@@ -6,7 +6,7 @@ from spotipy.oauth2 import SpotifyOAuth
 CACHE_FILE = ".cache-eb144adf5bdc40679ef5144f9fedc271"
 
 # Update the scope to include user-read-recently-played.
-SCOPE = "user-top-read user-read-recently-played"
+SCOPE = "user-top-read user-read-recently-played user-read-private"
 
 def get_spotify_auth_url():
     sp_oauth = SpotifyOAuth(

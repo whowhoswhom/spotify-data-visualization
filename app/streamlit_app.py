@@ -24,6 +24,31 @@ def run_app():
         else:
             st.write("Fetching your Spotify data...")
             try:
+                user_info = spotify_client.current_user()
+                user_name = user_info['display_name']
+                profile_image_url = user_info['images'][0]['url'] if user_info['images'] else None
+                if profile_image_url:
+                    if profile_image_url:
+                        # Use custom CSS to make the image round and smaller
+                        st.markdown(
+                            f"""
+                            <style>
+                            .profile-image {{
+                                width: 100px;  # Adjust the size as needed
+                                height: 100px; # Adjust the size as needed
+                                border-radius: 50%;  # Make the image round
+                                object-fit: cover;  # Ensure the image fits properly
+                            }}
+                            </style>
+                            """,
+                            unsafe_allow_html=True
+                        )
+                        st.image(profile_image_url, width=100, caption="Profile Picture")
+                else:
+                    st.write("No profile picture available.")
+
+                st.subheader(f"Welcome to your Wrap, {user_name}")
+
                 top_tracks = get_top_tracks(spotify_client)
                 if top_tracks and top_tracks.get("items"):
                     st.write("### Your Top Tracks:")
@@ -33,6 +58,8 @@ def run_app():
                         st.write(f"{idx + 1}. **{track_name}** by {artists}")
                 else:
                     st.write("No top tracks found or unable to fetch data.")
+
+                st.markdown("<br><br>", unsafe_allow_html=True)
                     
                 # --- Recently Played Songs Feature ---
                 recently_played = spotify_client.current_user_recently_played(limit=10)
