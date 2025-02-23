@@ -1,33 +1,10 @@
 # streamlitapp.py
 import os
 import streamlit as st
-from app.spotify_api import get_spotify_client, get_spotify_auth_url, get_top_tracks, CACHE_FILE
+from app.spotify_api import get_spotify_client, get_spotify_auth_url, get_top_tracks,get_top_albums_from_tracks, CACHE_FILE
 from app.plotting import create_songs_df  # no longer using recently_played_songs here
 import pandas as pd
 
-def get_top_albums_from_tracks(top_tracks, limit=25):
-    """
-    Process the top_tracks data to extract unique albums.
-    The 'count' represents the number of times an album appears.
-    """
-    album_dict = {}
-    for track in top_tracks.get("items", []):
-        album = track.get("album", {})
-        album_id = album.get("id")
-        if album_id:
-            if album_id not in album_dict:
-                images = album.get("images", [])
-                image_url = images[0]["url"] if images else ""
-                album_dict[album_id] = {
-                    "name": album.get("name", "Unknown Album"),
-                    "image_url": image_url,
-                    "count": 1
-                }
-            else:
-                album_dict[album_id]["count"] += 1
-    album_list = list(album_dict.values())
-    album_list.sort(key=lambda x: x["count"], reverse=True)
-    return album_list[:limit]
 
 def run_app():
     st.write("My Spotify Wrapped Clone")

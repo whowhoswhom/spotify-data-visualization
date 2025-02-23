@@ -41,3 +41,29 @@ def get_spotify_client(auth_response=None):
 def get_top_tracks(sp, limit=10):
     results = sp.current_user_top_tracks(limit=limit, time_range="long_term")
     return results
+
+def get_top_albums_from_tracks(top_tracks, limit=25):
+    """
+    Process the top_tracks data to extract unique albums.
+    The 'count' represents the number of times an album appears.
+    """
+    album_dict = {}
+    for track in top_tracks.get("items", []):
+        album = track.get("album", {})
+        album_id = album.get("id")
+        if album_id:
+            if album_id not in album_dict:
+                images = album.get("images", [])
+                image_url = images[0]["url"] if images else ""
+                album_dict[album_id] = {
+                    "name": album.get("name", "Unknown Album"),
+                    "image_url": image_url,
+                    "count": 1
+                }
+            else:
+                album_dict[album_id]["count"] += 1
+
+    # Create a list of albums and limit the output to the top 'limit' albums
+    album_list = list(album_dict.values())
+    album_list = sorted(album_list, key=lambda x: x["count"], reverse=True)[:limit]
+    return album_list
